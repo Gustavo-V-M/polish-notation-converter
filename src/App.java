@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class App {
     
@@ -16,6 +17,7 @@ public class App {
 
         OurStack<Character> operators_stk = new OurStack<>();
         OurStack<Character> polish_stk = new OurStack<>();
+        OurStack<Float> float_stk = new OurStack<>();
 
         ArrayList<Variable> variables = new ArrayList<>();
 
@@ -52,7 +54,7 @@ public class App {
             }
             else if (selection == 4){
 
-                selection_4(polish_stk, size);
+                selection_4(float_stk, size, variables);
             }
         }
     }
@@ -70,6 +72,27 @@ public class App {
                 return 2;
             case '^':
                 return 3;
+            default:
+                return -1;
+        }
+    }
+    private static float operation(char operator, float a, float b){
+        switch (operator) {
+            case '+':
+                return a + b;
+            
+            case '-':
+                return a - b;
+            
+            case '*':
+                return a * b;
+            
+            case '/':
+                return a / b;
+            
+            case '^':
+                return (float) Math.pow(a, b);
+            
             default:
                 return -1;
         }
@@ -156,10 +179,34 @@ public class App {
         polish_stk.push(aux);
     }
 
-    private static void selection_4(OurStack<Character> polish_stk,int size){
+    private static void selection_4(OurStack<Float> int_stk,int size, ArrayList<Variable> variables){
 
-        while (!polish_stk.isEmpty()){
-            System.out.println(polish_stk.pop());
+        String expression = "";
+        while (!int_stk.isEmpty()){
+            expression = int_stk.pop() + expression;
         }
+        char[] expression_chars = expression.toCharArray();
+
+        float x = 0f;
+        float y = 0f;
+
+        for (char letter: expression_chars){
+            if (Character.isLetter(letter)){
+                for (Variable var: variables){
+                    if (var.getLetter() == letter){
+                        int_stk.push(var.getValue());
+                    }
+                }
+            }
+            else {
+                y = int_stk.pop();
+                x = int_stk.pop();
+
+                int_stk.push(operation(letter, x, y));
+            }
+        }
+        System.out.println(int_stk.top());
+
     }
+
 }
