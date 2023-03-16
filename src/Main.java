@@ -2,6 +2,24 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.lang.Math;
 
+// Caio Alexandre V.B. de Andrade TIA - 32229690.
+// Gustavo Vilela Mitraud TIA - 32213611.
+// Nicolas Fernandes Melnik TIA - 32241720.
+// Jonatas Garcia de Oliveira TIA - 42181232.
+
+// Referencias:
+// Consulta do material "Programação de Computadores (versão "Java 101")", disponível no moodle da disciplina.
+// Uso do Scanner.useDelimiter; Disponível em: https://stackoverflow.com/questions/39514730/how-to-take-input-as-string-with-spaces-in-java-using-scanner.
+// Uso do String.replaceAll(); Disponível em: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll.
+// Uso do String.charAt(); Disponível em: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/charAt.
+// Como fazer exponenciação em Java. Disponível em: https://pt.stackoverflow.com/questions/148675/como-fazer-exponencia%c3%a7%c3%a3o-em-java.
+// Uso do toCharArray(); Disponível em: https://acervolima.com/java-string-tochararray-com-exemplo/.
+// Java forEach: como usar o enhanced-for loop. Disponível em: https://blog.betrybe.com/java-foreach/#1.
+// Java - isLetter() Method. Disponível: https://www.tutorialspoint.com/java/character_isletter.htm.
+// Consulta do Lab1b, disponível no moodle da disciplina.
+// Colsulta do código de Implementação de Pilha (feita pelo professor em sala de aula), disponível no moodle da disciplina.
+
+
 public class Main {
 
 	public static void main(String[] args) throws Exception {
