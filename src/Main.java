@@ -1,7 +1,3 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.lang.Math;
-
 // Caio Alexandre V.B. de Andrade TIA - 32229690.
 // Gustavo Vilela Mitraud TIA - 32213611.
 // Nicolas Fernandes Melnik TIA - 32241720.
@@ -19,6 +15,9 @@ import java.lang.Math;
 // Consulta do Lab1b, disponível no moodle da disciplina.
 // Colsulta do código de Implementação de Pilha (feita pelo professor em sala de aula), disponível no moodle da disciplina.
 
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.lang.Math;
 
 public class Main {
 
@@ -103,7 +102,8 @@ public class Main {
             System.out.println("A operação não é válida pois a variável apresenta duas letras!\n");
             break;
           }
-          else if (getPriority(expression.charAt(i)) == -1 && !Character.isLetter(expression.charAt(i))){
+          else if (getPriority(expression.charAt(i)) == -1 && !Character.isLetter(expression.charAt(i)) && expression.charAt(i) != '(' && 
+          expression.charAt(i) != '{' && expression.charAt(i) != '[' && expression.charAt(i) != ')' && expression.charAt(i) != '}' && expression.charAt(i) != ']'){
             System.out.println("A operação não é válida pois existe um operador não válido!\n");
             break;
           }
@@ -140,18 +140,18 @@ public class Main {
 
 				// realizando o calculo
 
-				int num_of_operators = polish_stk.getSize() - variables.size();
-
+				int num_of_operators = polish_stk.getCount() - variables.size();
+        
 				/*
 				 * Só será chamada a seleção 4 se o numero de operadores for
 				 * menor que o numero de variaveis, mas não igual a zero
 				 */
 
-				if (variables.size() != 0 && !polish_stk.isEmpty() && num_of_operators < variables.size() && num_of_operators != 0) {
+				if (variables.size() != 0 && !polish_stk.isEmpty() && num_of_operators <= variables.size() && num_of_operators != 0) {
 					selection_4(float_stk, polish_stk, size, variables);
 				}
 				else {
-					System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
+				  System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
 				}
 			}
 		}
@@ -237,6 +237,7 @@ public class Main {
 			 * polonesa (o equivalente a printar para a saida no
 			 * pseudocodigo)
 			 */
+
 			if (Character.isLetter(letter)) {
 				polish_stk.push(letter);
 				System.out.print(letter);
