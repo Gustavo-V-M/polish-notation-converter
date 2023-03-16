@@ -82,11 +82,11 @@ public class Main {
 				 */
 
 				System.out.printf("Digite a expressão: ");
-				expression = sc.next();
+				expression = sc.nextLine();
 				System.out.printf("\n");
 		    expression = expression.replaceAll(" ", "");
 
-        if (expression == "" || expression == " "){
+        if (expression.equals("") || expression.equals(" ")){
           System.out.println("A operação não é válida pois é nula!\n");
           continue;
         }
@@ -106,6 +106,11 @@ public class Main {
           expression.charAt(i) != '{' && expression.charAt(i) != '[' && expression.charAt(i) != ')' && expression.charAt(i) != '}' && expression.charAt(i) != ']'){
             System.out.println("A operação não é válida pois existe um operador não válido!\n");
             break;
+          }
+          else if (Character.isDigit(expression.charAt(i+1)) || Character.isDigit(expression.charAt(0))){
+            System.out.println("A operação não é válida pois existe uma variavel não válida!\n");
+            break;
+
           }
         }        
 				selection_1(operators_stk, polish_stk, expression, size, variables);
