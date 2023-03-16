@@ -1,3 +1,8 @@
+// Caio Alexandre V.B. de Andrade TIA - 32229690.
+// Gustavo Vilela Mitraud TIA - 32213611.
+// Nicolas Fernandes Melnik TIA - 32241720.
+// Jonatas Garcia de Oliveira TIA - 42181232.
+
 public class CheckOrder {
 
 	public static boolean check(String expression) {

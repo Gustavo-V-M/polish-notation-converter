@@ -6,39 +6,46 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in).useDelimiter("\n");
-
+		
 		int selection = 0;
 		String expression = "";
+    String polish_expression = "";
 		int size = 0;
-
+		
 		/*
 		 * a stack polish_stk é usada para realizar a conta depois de a
 		 * expressão já ser transformada em notação polonesa a stack
 		 * operators_stk é usada para empilhar os operadores na hora de
 		 * converter para notação polonesa
 		 */
-
+		 
 		OurStack<Character> operators_stk = new OurStack<>();
 		OurStack<Character> polish_stk = new OurStack<>();
 		OurStack<Float> float_stk = new OurStack<>();
-
+		
 		ArrayList<Variable> variables = new ArrayList<>();
-
+		
 		while (selection != 5) {
-
-			System.out.println("--------------- MENU ---------------");
+			System.out.println("-------------------------------------------------------- MENU --------------------------------------------------------");
 			System.out.println("1. Entrada da expressão aritmética na notação infixa.\n"
-					+ "2. Entrada dos valores numéricos associados às variáveis.\n"
-					+ "3. Conversão da expressão, da notação infixa para a notação posfixa, e exibição da expressão convertida para posfixa.\n"
-					+ "4. Avaliação da expressão (apresentação do resultado do cálculo, mostrando a expressão e valores das variáveis).\n"
-					+ "5. Encerramento do programa.");
-
-			try {
-				selection = sc.nextInt();
-			} catch (Exception e) {
-				System.out.println("Seleção invalida");
+					         + "2. Entrada dos valores numéricos associados às variáveis.\n"
+					         + "3. Conversão da expressão, da notação infixa para a notação posfixa, e exibição da expressão convertida para posfixa.\n"
+					         + "4. Avaliação da expressão (apresentação do resultado do cálculo, mostrando a expressão e valores das variáveis).\n"
+					         + "5. Encerramento do programa.");
+      System.out.printf("\nDigite uma opção do menu: ");
+            try {
+                selection = sc.nextInt();
+                sc.nextLine(); // consume the remaining input
+            } catch (Exception e) {
+                System.out.println("Seleção inválida!\n");
+                sc.nextLine(); // consume the remaining input
+                continue;
+            }
+            if (selection < 1 || selection > 5) {
+				System.out.printf("Seleção inválida!\n\n");
 				continue;
-			}
+            }
+            System.out.printf("\n");
 
 			if (selection == 1) {
 
@@ -50,26 +57,40 @@ public class Main {
 				operators_stk.clear();
 				float_stk.clear();
 
+        variables.clear();
+
 				/*
 				 * adicionando a expressão na stack e adicionando as variaveis na
 				 * variables;
 				 */
 
-				System.out.println("Digite a expressão");
+				System.out.printf("Digite a expressão: ");
 				expression = sc.next();
+				System.out.printf("\n");
+		    expression = expression.replaceAll(" ", "");
 
-				// Só será chamada a primeira seleção caso a expressão for valida
-				if (CheckOrder.check(expression)) {
+        if (expression == "" || expression == " "){
+          System.out.println("A operação não é válida pois é nula!\n");
+          continue;
+        }
+        size = expression.length();
 
-					size = expression.length();
-
-					selection_1(operators_stk, polish_stk, expression, size, variables);
-
-				}
-				else {
-					System.out.println("A operação não é valida!");
-				}
-
+ 				if (!CheckOrder.check(expression)) {
+          System.out.println("A operação não é válida pois a ordem está errada!\n");
+          continue;
+				}            
+        
+        for (int i = 0; i < size - 1; i++){
+          if (Character.isLetter(expression.charAt(i)) && Character.isLetter(expression.charAt(i+1))){
+            System.out.println("A operação não é válida pois a variável apresenta duas letras!\n");
+            break;
+          }
+          else if (getPriority(expression.charAt(i)) == -1 && !Character.isLetter(expression.charAt(i))){
+            System.out.println("A operação não é válida pois existe um operador não válido!\n");
+            break;
+          }
+        }        
+				selection_1(operators_stk, polish_stk, expression, size, variables);
 			}
 			else if (selection == 2) {
 				/*
@@ -82,7 +103,7 @@ public class Main {
 					selection_2(variables, sc);
 				}
 				else {
-					System.out.println("Você não adicinou uma expressão valida ou sua expressão não possuí variaveis!");
+					System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
 				}
 			}
 
@@ -93,7 +114,7 @@ public class Main {
 					selection_3(operators_stk, polish_stk, expression);
 				}
 				else {
-					System.out.println("Você não digitou uma operação!");
+					System.out.println("Você não digitou uma operação!\n");
 				}
 
 			}
@@ -105,20 +126,18 @@ public class Main {
 
 				/*
 				 * Só será chamada a seleção 4 se o numero de operadores for
-				 * menor que o numero de variaveis
+				 * menor que o numero de variaveis, mas não igual a zero
 				 */
 
-				if (variables.size() != 0 && !polish_stk.isEmpty() && num_of_operators < variables.size()) {
+				if (variables.size() != 0 && !polish_stk.isEmpty() && num_of_operators < variables.size() && num_of_operators != 0) {
 					selection_4(float_stk, polish_stk, size, variables);
 				}
 				else {
-					System.out.println("Você não adicinou uma expressão valida ou sua expressão não possuí variaveis!");
+					System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
 				}
-
 			}
 		}
 	}
-
 	private static int getPriority(char letter) {
 
 		/*
@@ -181,16 +200,18 @@ public class Main {
 
 	private static void selection_2(ArrayList<Variable> variables, Scanner sc) {
 		for (Variable variable : variables) {
-			System.out.print("Digite o valor da variavel ");
-			System.out.println(variable.getLetter());
+			System.out.print("Digite o valor da variável ");
+			System.out.print(variable.getLetter());
+			System.out.print(": ");
 			variable.setValue(sc.nextInt());
+			System.out.print("\n");
 		}
 	}
 
-	private static void selection_3(OurStack<Character> operators_stk, OurStack<Character> polish_stk,
-			String expression) {
+	private static void selection_3(OurStack<Character> operators_stk, OurStack<Character> polish_stk, String expression) {
+	    
+	    System.out.printf("Conversão da infixa para posfixa = ");
 
-		expression = expression.replaceAll(" ", "");
 		for (char letter : expression.toCharArray()) {
 
 			/*
@@ -250,30 +271,34 @@ public class Main {
 			System.out.print(aux);
 		}
 		System.out.print("\n");
+		System.out.print("\n");
 	}
 
 	private static void selection_4(OurStack<Float> float_stk, OurStack<Character> char_stk, int size,
 			ArrayList<Variable> variables) {
-
-		// invertendo a pilha char_stk
+	    	    
+	    
+		// invertendo a pilha char_stk e printando a expressão em polish stk
 		String expression = "";
+
 		while (!char_stk.isEmpty()) {
 			expression = char_stk.pop() + expression;
 		}
 		char[] expression_chars = expression.toCharArray();
 		int expression_size = expression.length();
-
+		
 		for (int i = expression_size - 1; i >= 0; i--) {
 			char_stk.push(expression_chars[i]);
 		}
 
+    		
 		/*
 		 * se o topo da pilha string_stk for uma variavel, empilha o
 		 * valor dela na pilha float_stk se for um operador, remove os
 		 * dois do topo da pilha float_stk, faz a operacao, e empilha na
 		 * int_stk
 		 */
-
+		 
 		float x = 0f;
 		float y = 0f;
 
@@ -283,20 +308,26 @@ public class Main {
 				for (Variable var : variables) {
 					if (var.getLetter() == string_top) {
 						float_stk.push(var.getValue());
-
 					}
 				}
 			}
 			else {
 				y = float_stk.pop();
 				x = float_stk.pop();
-
+				
 				float result = operation(string_top, x, y);
 				float_stk.push(result);
 			}
-
 		}
+    for (Variable var: variables){
+      System.out.printf("Variavel: " + var.getLetter());
+      System.out.printf(", Valor: ");
+      System.out.println(var.getValue());
+    }
+    System.out.printf("Expressão pós-fixa: ");
+    System.out.println(expression);
+		System.out.printf("Resultado = ");
 		System.out.println(float_stk.top());
+		System.out.printf("\n");
 	}
-
 }
