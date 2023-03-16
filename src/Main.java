@@ -102,13 +102,12 @@ public class Main {
             System.out.println("A operação não é válida pois a variável apresenta duas letras!\n");
             break;
           }
-          else if (getPriority(expression.charAt(i)) == -1 && !Character.isLetter(expression.charAt(i)) && expression.charAt(i) != '(' && 
-          expression.charAt(i) != '{' && expression.charAt(i) != '[' && expression.charAt(i) != ')' && expression.charAt(i) != '}' && expression.charAt(i) != ']'){
+          else if (getPriority(expression.charAt(i)) == -1 && !Character.isLetter(expression.charAt(i)) && expression.charAt(i) != '(' && expression.charAt(i) != ')'){
             System.out.println("A operação não é válida pois existe um operador não válido!\n");
             break;
           }
           else if (Character.isDigit(expression.charAt(i+1)) || Character.isDigit(expression.charAt(0))){
-            System.out.println("A operação não é válida pois existe uma variavel não válida!\n");
+            System.out.println("A operação não é válida pois existe uma variavel sendo representada por número!\n");
             break;
 
           }
@@ -126,7 +125,7 @@ public class Main {
 					selection_2(variables, sc);
 				}
 				else {
-					System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
+					System.out.println("Você não digitou uma expressão!\n");
 				}
 			}
 
@@ -137,7 +136,7 @@ public class Main {
 					selection_3(operators_stk, polish_stk, expression);
 				}
 				else {
-					System.out.println("Você não digitou uma operação!\n");
+					System.out.println("Você não digitou uma expressão!\n");
 				}
 
 			}
@@ -156,7 +155,7 @@ public class Main {
 					selection_4(float_stk, polish_stk, size, variables);
 				}
 				else {
-				  System.out.println("Você não adicionou uma expressão válida ou sua expressão não possuí variáveis!\n");
+				  System.out.println("Você não digitou uma expressão ou não digitou as variáveis ou vc não converteu para posfixa!\n");
 				}
 			}
 		}
